@@ -39,12 +39,18 @@ jobs:
           # override default build-tools version (29.0.3) -- optional
           BUILD_TOOLS_VERSION: "34.0.0"
 
-        
-      - name: Delete Older Releases
-        uses: nikhilbadyal/ghaction-rm-releases@v0.0.5
+      - name Delete Release
+      - uses: dev-drprasad/delete-tag-and-release@v1.1
         with:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          RELEASE_PATTERN: 'v*'          
+          tag_name: ${{ github.ref }}
+          delete_release: true 
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+    
+#      - name: Delete Older Releases
+#        uses: nikhilbadyal/ghaction-rm-releases@v0.0.5
+#        with:
+#          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+#          RELEASE_PATTERN: 'v*'          
         
       - name: Generate release tag
         id: tag
