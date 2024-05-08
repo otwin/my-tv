@@ -1,13 +1,6 @@
 name: build
 
 on:
-  repository_dispatch:
-  workflow_dispatch:
-    inputs:
-      ssh:
-        description: 'SSH connection to Actions'
-        required: false
-        default: 'false'
   push:
     tags:
       - 'v*'
@@ -20,13 +13,6 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Generate release tag
-        id: newtag
-        run: |
-          echo "release_tag='v1.1.1'" >> $GITHUB_OUTPUT
-          touch release.txt
-          echo "status=success" >> $GITHUB_OUTPUT
-
       
       - name: Checkout code
         uses: actions/checkout@v4
@@ -53,14 +39,13 @@ jobs:
           # override default build-tools version (29.0.3) -- optional
           BUILD_TOOLS_VERSION: "34.0.0"
 
-      - name: Remove old Releases
-        uses: dev-drprasad/delete-older-releases@v0.3.3
+        
+      - name: Delete Older Releases
+        uses: nikhilbadyal/ghaction-rm-releases@v0.0.5
         with:
-          keep_latest: 3
-          delete_tags: true
-        env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          
+          RELEASE_PATTERN: 'v*'          
+        
       - name: Generate release tag
         id: tag
         run: |
