@@ -21,7 +21,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Generate release tag
-        id: tag
+        id: newtag
         run: |
           echo "release_tag='v1.1.1'" >> $GITHUB_OUTPUT
           touch release.txt
